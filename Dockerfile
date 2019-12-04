@@ -1,14 +1,7 @@
-# Use an official Node runtime as the parent image
-FROM node:6
+FROM golang:1.7-alpine
 
-# Set the working directory in the container to /app
-WORKDIR /app
+ADD . /home
+        
+WORKDIR /home
 
-# Copy the current directory contents into the container at /app
-ADD . /app
-
-# Make the container's port 80 available to the outside world
-EXPOSE 80
-
-# Run app.js using node when the container launches
-CMD ["node", "app.js"]
+CMD ["go","run","helloworld.go"]
