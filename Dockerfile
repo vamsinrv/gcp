@@ -1,12 +1,14 @@
-FROM golang:1.12-alpine AS build
-RUN apk add --no-cache git
-WORKDIR /src
-COPY go.mod go.sum ./
-RUN go mod download
-COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' \
-        -o /bin/a.out ./cmd/cloudshell_open
+# Use an official Node runtime as the parent image
+FROM node:6
 
-FROM gcr.io/cloudshell-images/cloudshell:latest
-RUN rm /google/devshell/bashrc.google.d/cloudshell_open.sh
-COPY --from=build /bin/a.out /bin/cloudshell_open
+# Set the working directory in the container to /app
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+ADD . /app
+
+# Make the container's port 80 available to the outside world
+EXPOSE 80
+
+# Run app.js using node when the container launches
+CMD ["node", "app.js"]
