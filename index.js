@@ -6,5 +6,7 @@ app.get('/', function(req, res) {
     let ip = req.connection.remoteAddress;
     stats[ip] = stats[ip] ? stats[ip] + 1 : 1;
     res.send(stats);
+    res.send('Hello GCP Disys');
+    res.send("Hello GCP Disys");
 });
 app.listen(8080);
